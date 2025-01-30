@@ -98,7 +98,7 @@
 <body>
 <div class="login-container">
     <h2>Login</h2>
-    <form action="/login" method="POST">
+    <form action="_pages/layout_page.php" method="POST">
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" id="username" name="username" required>
@@ -114,5 +114,6 @@
         <a href="/register">Register</a>
     </div>
 </div>
+
 </body>
 </html>
