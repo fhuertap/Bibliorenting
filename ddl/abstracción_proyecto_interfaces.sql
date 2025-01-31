@@ -196,6 +196,32 @@ GO
                 GO
         GO
 
+    -- PROCEDIMIENTO PARA VALIDAR TOKEN (VALIDAR TOKENIZACION)
+        IF EXISTS (
+            SELECT *
+                FROM INFORMATION_SCHEMA.ROUTINES
+            WHERE SPECIFIC_SCHEMA = N'dbo'
+                AND SPECIFIC_NAME = N'ValidarToken'
+                AND ROUTINE_TYPE = N'PROCEDURE'
+            )
+                DROP PROCEDURE dbo.ValidarToken
+                    GO
+                CREATE PROCEDURE dbo.ValidarToken
+                        @CLAVE_DE_USUARIO VARCHAR(30)
+                AS
+                    BEGIN
+                        DECLARE @RESULT INT = 0
+                        DECLARE @TOKEN TIME = (SELECT TOKEN FROM [Administración] WHERE [MATRICULA] = @CLAVE_DE_USUARIO)
+                        IF(@TOKEN IS NOT NULL)
+                        BEGIN
+                            IF(ABS(DATEDIFF(MINUTE, @TOKEN, CONVERT(TIME,GETDATE()))) >= 1)
+                            BEGIN SET @RESULT = 1 END
+                        END
+                        RETURN @RESULT
+                    END
+                GO
+        GO
+
     -- PROCEDIMIENTO DE INICIAR SESION
         IF EXISTS (
             SELECT *
@@ -212,6 +238,7 @@ GO
                 AS
                     BEGIN
                         DECLARE @RESULT INT
+                        EXECUTE Tokenizacion @CLAVE_DE_USUARIO
                         IF(SELECT [Administración].TOKEN
                             FROM [Administración]
                             LEFT JOIN Credenciales ON [Administración].[MATRICULA] = Credenciales.[MATRICULA]
@@ -226,7 +253,6 @@ GO
                         BEGIN SET @RESULT = 0 END
                         ELSE
                         BEGIN
-                            EXECUTE Tokenizacion @CLAVE_DE_USUARIO
                             IF(SELECT [TIPO DE HORARIO] FROM [Credenciales] WHERE [MATRICULA] = @CLAVE_DE_USUARIO)= 'Admin'
                             BEGIN SET @RESULT = 1 END
                             ELSE
