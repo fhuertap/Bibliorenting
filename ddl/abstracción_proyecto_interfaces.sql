@@ -17,102 +17,7 @@ GO
             USE PROYECTO_INTERFACES
                 GO
 
-    -- ENTIDAD DE HORARIOS
-        IF OBJECT_ID('[dbo].[Horarios]', 'U') IS NOT NULL
-            DROP TABLE [dbo].[Horarios]
-            GO
-            CREATE TABLE Horarios(
-                [TIPO DE HORARIO] VARCHAR(25) PRIMARY KEY
-                , [HORA MINIMA] TIME NOT NULL
-                , [HORA MAXIMA] TIME NOT NULL
-                , OBSERVACIONES VARCHAR(100)
-            )
-
-    -- ENTIDAD DE LOGIN
-        IF OBJECT_ID('[dbo].[Administración]', 'U') IS NOT NULL
-            DROP TABLE [dbo].[Administración]
-            GO
-            CREATE TABLE [Administración](
-                [MATRICULA] VARCHAR(30) PRIMARY KEY
-                , NOMBRE VARCHAR(30) NOT NULL
-                , [FECHA DE REGISTRO] DATE DEFAULT GETDATE()
-                , TOKEN TIME
-            )
-
-    -- ENTIDAD DE CREDENCIALES
-        IF OBJECT_ID('[dbo].[Credenciales]', 'U') IS NOT NULL
-            DROP TABLE [dbo].[Credenciales]
-            GO
-            CREATE TABLE Credenciales(
-                REGIDUUID VARCHAR(60) PRIMARY KEY DEFAULT NEWID()
-                , [MATRICULA] VARCHAR(30)
-                , [CLAVE] VARCHAR(30) NOT NULL
-                , [TIPO DE HORARIO] VARCHAR(25)
-                , FOREIGN KEY([MATRICULA]) REFERENCES [Administración]([MATRICULA])
-                , FOREIGN KEY([TIPO DE HORARIO]) REFERENCES [Horarios]([TIPO DE HORARIO])
-            )
-
-    -- PROCEDIMIENTO PARA CREAR TOKEN
-        IF EXISTS (
-            SELECT *
-                FROM INFORMATION_SCHEMA.ROUTINES
-            WHERE SPECIFIC_SCHEMA = N'dbo'
-                AND SPECIFIC_NAME = N'Tokenizacion'
-                AND ROUTINE_TYPE = N'PROCEDURE'
-            )
-                DROP PROCEDURE dbo.Tokenizacion
-                    GO
-                -- Create the stored procedure in the specified schema
-                CREATE PROCEDURE dbo.Tokenizacion
-                        @CLAVE_DE_USUARIO INT
-                AS
-                    BEGIN
-                        UPDATE [Administración] SET TOKEN = CONVERT(TIME, DATEADD(HOUR, 1, GETDATE()))
-                            WHERE [MATRICULA] = @CLAVE_DE_USUARIO
-                    END
-                GO
-        GO
-
-    -- PROCEDIMIENTO DE LOGIN
-        IF EXISTS (
-            SELECT *
-                FROM INFORMATION_SCHEMA.ROUTINES
-            WHERE SPECIFIC_SCHEMA = N'dbo'
-                AND SPECIFIC_NAME = N'Iniciar_sesion'
-                AND ROUTINE_TYPE = N'PROCEDURE'
-            )
-                DROP PROCEDURE dbo.Iniciar_sesion
-                    GO
-                -- Create the stored procedure in the specified schema
-                CREATE PROCEDURE dbo.Iniciar_sesion
-                    @CLAVE_DE_USUARIO INT
-                    , @CLAVE VARCHAR(30)
-                AS
-                    BEGIN
-                        DECLARE @RESULT INT
-                        EXECUTE Tokenizacion @CLAVE_DE_USUARIO
-                        IF(SELECT [Administración].TOKEN
-                            FROM [Administración]
-                            LEFT JOIN Credenciales ON [Administración].[MATRICULA] = Credenciales.[MATRICULA]
-                            LEFT JOIN Horarios ON Credenciales.[TIPO DE HORARIO] = Horarios.[TIPO DE HORARIO]
-                                WHERE [Administración].[MATRICULA] = @CLAVE_DE_USUARIO
-                                    AND Credenciales.[CLAVE] = @CLAVE
-                                    AND CONVERT(TIME,GETDATE()) BETWEEN(
-                                        Horarios.[HORA MINIMA]
-                                    ) AND (
-                                        Horarios.[HORA MAXIMA]
-                                    )) IS NULL
-                        BEGIN SET @RESULT = 0 END
-                        ELSE
-                            BEGIN
-                                IF(SELECT [TIPO DE HORARIO] FROM [Credenciales] WHERE [MATRICULA] = @CLAVE_DE_USUARIO)= 'Admin'
-                                BEGIN SET @RESULT = 1 END
-                                ELSE BEGIN SET @RESULT = 2 END
-                            END
-                        RETURN @RESULT
-                    END
-                GO
-
+    
     -- ENTIDAD DE LIBROS
         IF OBJECT_ID('[dbo].[Libros]', 'U') IS NOT NULL
             DROP TABLE [dbo].[Libros]
@@ -148,6 +53,40 @@ GO
                 , [LIBROS EN PODER] INT NOT NULL
             )
 
+    -- ENTIDAD DE HORARIOS
+        IF OBJECT_ID('[dbo].[Horarios]', 'U') IS NOT NULL
+            DROP TABLE [dbo].[Horarios]
+            GO
+            CREATE TABLE Horarios(
+                [TIPO DE HORARIO] VARCHAR(25) PRIMARY KEY
+                , [HORA MINIMA] TIME NOT NULL
+                , [HORA MAXIMA] TIME NOT NULL
+                , OBSERVACIONES VARCHAR(100)
+            )
+
+    -- ENTIDAD DE ADMINISTRACION (LOGIN)
+        IF OBJECT_ID('[dbo].[Administración]', 'U') IS NOT NULL
+            DROP TABLE [dbo].[Administración]
+            GO
+            CREATE TABLE [Administración](
+                [MATRICULA] VARCHAR(30) PRIMARY KEY
+                , [FECHA DE REGISTRO] DATE DEFAULT GETDATE()
+                , TOKEN TIME
+            )
+
+    -- ENTIDAD DE CREDENCIALES
+        IF OBJECT_ID('[dbo].[Credenciales]', 'U') IS NOT NULL
+            DROP TABLE [dbo].[Credenciales]
+            GO
+            CREATE TABLE Credenciales(
+                REGIDUUID VARCHAR(60) PRIMARY KEY DEFAULT NEWID()
+                , [MATRICULA] VARCHAR(30)
+                , [CLAVE] VARCHAR(30) NOT NULL
+                , [TIPO DE HORARIO] VARCHAR(25)
+                , FOREIGN KEY([MATRICULA]) REFERENCES [Administración]([MATRICULA])
+                , FOREIGN KEY([TIPO DE HORARIO]) REFERENCES [Horarios]([TIPO DE HORARIO])
+            )
+
     -- ENTIDAD DE PRÉSTAMOS
         IF OBJECT_ID('[dbo].[Préstamos]', 'U') IS NOT NULL
             DROP TABLE [dbo].[Préstamos]
@@ -176,6 +115,102 @@ GO
                 , [STATUS] VARCHAR(60) NOT NULL DEFAULT 'En tiempo'
                 , FOREIGN KEY(REGIDUUID) REFERENCES [Préstamos](REGIDUUID)
             )
+
+    -- PROCEDIMIENTO PARA AGREGAR NUEVO USUARIO
+        IF EXISTS (
+            SELECT *
+                FROM INFORMATION_SCHEMA.ROUTINES
+            WHERE SPECIFIC_SCHEMA = N'dbo'
+                AND SPECIFIC_NAME = N'AgregarUsuario'
+                AND ROUTINE_TYPE = N'PROCEDURE'
+            )
+                DROP PROCEDURE dbo.AgregarUsuario
+                    GO
+                CREATE PROCEDURE dbo.AgregarUsuario
+                        @MATRICULA VARCHAR(30)
+                        , @ESTADO BIT
+                        , @TIPO_DE_USUARIO VARCHAR(100)
+                        , @NOMBRE VARCHAR(100)
+                        , @APELLIDO_PATERNO VARCHAR(100)
+                        , @APELLIDO_MATERNO VARCHAR(100)
+                        , @NÚMERO_DE_CELULAR VARCHAR(100)
+                        , @MAIL VARCHAR(100)
+                        , @CAMPUS VARCHAR(100)
+                        , @EDIFICIO VARCHAR(100)
+                        , @CARRERA VARCHAR(100)
+                        , @LIBROS_EN_PODER INT
+                        , @CONTRASENA VARCHAR(30)
+                    AS
+                    BEGIN
+                        INSERT INTO Usuarios([MATRÍCULA], [STATUS], [TIPO DE USUARIO], NOMBRE, [APELLIDO PATERNO], [APELLIDO MATERNO], [NÚMERO DE CELULAR], MAIL, CAMPUS, EDIFICIO, CARRERA, [LIBROS EN PODER])
+                        VALUES
+                        (@MATRICULA, @ESTADO, @TIPO_DE_USUARIO, @NOMBRE, @APELLIDO_PATERNO, @APELLIDO_MATERNO, @NÚMERO_DE_CELULAR, @MAIL, @CAMPUS, @EDIFICIO, @CARRERA, @LIBROS_EN_PODER)
+
+                        INSERT INTO [Administración]([MATRICULA]) VALUES (@MATRICULA)
+
+                        INSERT INTO [Credenciales]([MATRICULA], CLAVE, [TIPO DE HORARIO]) VALUES (@MATRICULA, @CONTRASENA, @TIPO_DE_USUARIO)
+
+                    END
+                GO
+
+    -- PROCEDIMIENTO PARA CREAR TOKEN (TOKENIZACION)
+        IF EXISTS (
+            SELECT *
+                FROM INFORMATION_SCHEMA.ROUTINES
+            WHERE SPECIFIC_SCHEMA = N'dbo'
+                AND SPECIFIC_NAME = N'Tokenizacion'
+                AND ROUTINE_TYPE = N'PROCEDURE'
+            )
+                DROP PROCEDURE dbo.Tokenizacion
+                    GO
+                CREATE PROCEDURE dbo.Tokenizacion
+                        @CLAVE_DE_USUARIO VARCHAR(30)
+                AS
+                    BEGIN
+                        UPDATE [Administración] SET TOKEN = CONVERT(TIME, DATEADD(HOUR, 1, GETDATE()))
+                            WHERE [MATRICULA] = @CLAVE_DE_USUARIO
+                    END
+                GO
+        GO
+
+    -- PROCEDIMIENTO DE INICIAR SESION
+        IF EXISTS (
+            SELECT *
+                FROM INFORMATION_SCHEMA.ROUTINES
+            WHERE SPECIFIC_SCHEMA = N'dbo'
+                AND SPECIFIC_NAME = N'Iniciar_sesion'
+                AND ROUTINE_TYPE = N'PROCEDURE'
+            )
+                DROP PROCEDURE dbo.Iniciar_sesion
+                    GO
+                CREATE PROCEDURE dbo.Iniciar_sesion
+                    @CLAVE_DE_USUARIO VARCHAR(30)
+                    , @CLAVE VARCHAR(30)
+                AS
+                    BEGIN
+                        DECLARE @RESULT INT
+                        EXECUTE Tokenizacion @CLAVE_DE_USUARIO
+                        IF(SELECT [Administración].TOKEN
+                            FROM [Administración]
+                            LEFT JOIN Credenciales ON [Administración].[MATRICULA] = Credenciales.[MATRICULA]
+                            LEFT JOIN Horarios ON Credenciales.[TIPO DE HORARIO] = Horarios.[TIPO DE HORARIO]
+                                WHERE [Administración].[MATRICULA] = @CLAVE_DE_USUARIO
+                                    AND Credenciales.[CLAVE] = @CLAVE
+                                    AND CONVERT(TIME,GETDATE()) BETWEEN(
+                                        Horarios.[HORA MINIMA]
+                                    ) AND (
+                                        Horarios.[HORA MAXIMA]
+                                    )) IS NULL
+                        BEGIN SET @RESULT = 0 END
+                        ELSE
+                            BEGIN
+                                IF(SELECT [TIPO DE HORARIO] FROM [Credenciales] WHERE [MATRICULA] = @CLAVE_DE_USUARIO)= 'Admin'
+                                BEGIN SET @RESULT = 1 END
+                                ELSE BEGIN SET @RESULT = 2 END
+                            END
+                        RETURN @RESULT
+                    END
+                GO
 
     -- PROCEDIMIENTO PARA AGREGAR NUEVO PRÉSTAMO DE LIBRO
         IF EXISTS (
