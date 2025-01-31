@@ -17,9 +17,8 @@ USE PROYECTO_INTERFACES
     PRINT ABS(DATEDIFF(MINUTE, @TOKEN, CONVERT(TIME,GETDATE())))
 
 
-
-    SELECT * FROM Administración
     SELECT * FROM PRESTAMOS
+    SELECT * FROM Registros
     /* LOS STATUS DE LOS LIBROS PUEDEN SER:
         Activo: Cuando el préstamo aún es vigente y el usuario cuenta con él
         Inactivo: Cuando el préstamo ya no es vigente y el libro se a entregado a la librería
@@ -29,17 +28,10 @@ USE PROYECTO_INTERFACES
 
      */
 
-    SELECT * FROM REGISTROS
 
 
-    UPDATE Registros SET [FECHA DE EMISIÓN] = '2025-01-20'
 
-        DECLARE @RC INT
-        EXECUTE @RC = [Nuevo Préstamo] '22320455-32', '1453-1454-12566', 1
-        PRINT @RC
+        
 
-
-        DECLARE @RU INT
-        EXECUTE @RU = [Calcular Costo de préstamo]
-
+        
             

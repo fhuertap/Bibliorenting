@@ -19,6 +19,9 @@ USE PROYECTO_INTERFACES
         EXECUTE @RC = [Nuevo Préstamo] '11223344-55', '1453-1454-12566', 1
         PRINT @RC
 
+        DECLARE @RU INT
+        EXECUTE @RU = [Calcular Costo de préstamo]
+        PRINT @RU
 
 ----------------------
 SELECT 'OK' AS 'RESULT'
