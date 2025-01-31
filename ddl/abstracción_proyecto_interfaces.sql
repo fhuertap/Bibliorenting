@@ -33,7 +33,7 @@ GO
             DROP TABLE [dbo].[Administración]
             GO
             CREATE TABLE [Administración](
-                [CLAVE DE USUARIO] INT PRIMARY KEY
+                [MATRICULA] VARCHAR(30) PRIMARY KEY
                 , NOMBRE VARCHAR(30) NOT NULL
                 , [FECHA DE REGISTRO] DATE DEFAULT GETDATE()
                 , TOKEN TIME
@@ -45,13 +45,14 @@ GO
             GO
             CREATE TABLE Credenciales(
                 REGIDUUID VARCHAR(60) PRIMARY KEY DEFAULT NEWID()
-                , [CLAVE DE USUARIO] INT
+                , [MATRICULA] VARCHAR(30)
                 , [CLAVE] VARCHAR(30) NOT NULL
                 , [TIPO DE HORARIO] VARCHAR(25)
-                , FOREIGN KEY([CLAVE DE USUARIO]) REFERENCES [Administración]([CLAVE DE USUARIO])
+                , FOREIGN KEY([MATRICULA]) REFERENCES [Administración]([MATRICULA])
                 , FOREIGN KEY([TIPO DE HORARIO]) REFERENCES [Horarios]([TIPO DE HORARIO])
             )
 
+    -- PROCEDIMIENTO PARA CREAR TOKEN
         IF EXISTS (
             SELECT *
                 FROM INFORMATION_SCHEMA.ROUTINES
@@ -67,7 +68,7 @@ GO
                 AS
                     BEGIN
                         UPDATE [Administración] SET TOKEN = CONVERT(TIME, DATEADD(HOUR, 1, GETDATE()))
-                            WHERE [CLAVE DE USUARIO] = @CLAVE_DE_USUARIO
+                            WHERE [MATRICULA] = @CLAVE_DE_USUARIO
                     END
                 GO
         GO
@@ -92,9 +93,9 @@ GO
                         EXECUTE Tokenizacion @CLAVE_DE_USUARIO
                         IF(SELECT [Administración].TOKEN
                             FROM [Administración]
-                            LEFT JOIN Credenciales ON [Administración].[CLAVE DE USUARIO] = Credenciales.[CLAVE DE USUARIO]
+                            LEFT JOIN Credenciales ON [Administración].[MATRICULA] = Credenciales.[MATRICULA]
                             LEFT JOIN Horarios ON Credenciales.[TIPO DE HORARIO] = Horarios.[TIPO DE HORARIO]
-                                WHERE [Administración].[CLAVE DE USUARIO] = @CLAVE_DE_USUARIO
+                                WHERE [Administración].[MATRICULA] = @CLAVE_DE_USUARIO
                                     AND Credenciales.[CLAVE] = @CLAVE
                                     AND CONVERT(TIME,GETDATE()) BETWEEN(
                                         Horarios.[HORA MINIMA]
@@ -104,7 +105,7 @@ GO
                         BEGIN SET @RESULT = 0 END
                         ELSE
                             BEGIN
-                                IF(SELECT [TIPO DE HORARIO] FROM [Credenciales] WHERE [CLAVE DE USUARIO] = @CLAVE_DE_USUARIO)= 'Admin'
+                                IF(SELECT [TIPO DE HORARIO] FROM [Credenciales] WHERE [MATRICULA] = @CLAVE_DE_USUARIO)= 'Admin'
                                 BEGIN SET @RESULT = 1 END
                                 ELSE BEGIN SET @RESULT = 2 END
                             END
