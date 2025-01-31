@@ -1,15 +1,15 @@
 USE PROYECTO_INTERFACES
     GO
 
-    DECLARE @RESULT VARCHAR(5)
-    EXECUTE @RESULT = Iniciar_Sesion '22320455-32','System32'
+    DECLARE @RESULT INT
+    EXECUTE @RESULT = Iniciar_Sesion '11223344-55','System32'
     PRINT @RESULT
-    -- 0 ES ADMIN
-    -- 1 ES DOCENTE
-    -- 2 ES ALUMNO
-
-        EXECUTE  Iniciar_Sesion 1,'System32'
-
+    EXECUTE @RESULT = Iniciar_Sesion '11223344-56','System32'
+    PRINT @RESULT
+    -- 0 ES NO ACCEDER
+    -- 1 ES ADMIN
+    -- 2 ES DOCENTE
+    -- 3 ES ALUMNO
 
     SELECT * FROM LIBROS
 

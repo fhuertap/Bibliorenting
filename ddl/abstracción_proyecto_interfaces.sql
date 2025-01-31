@@ -9,15 +9,12 @@ GO
                     ALTER DATABASE PROYECTO_INTERFACES SET SINGLE_USER WITH ROLLBACK IMMEDIATE
                             DROP DATABASE IF EXISTS PROYECTO_INTERFACES
                         GO
-
             CREATE DATABASE PROYECTO_INTERFACES
                 COLLATE SQL_Latin1_General_CP1_CI_AI
                 GO
-
             USE PROYECTO_INTERFACES
                 GO
-
-    
+   
     -- ENTIDAD DE LIBROS
         IF OBJECT_ID('[dbo].[Libros]', 'U') IS NOT NULL
             DROP TABLE [dbo].[Libros]
@@ -152,6 +149,32 @@ GO
 
                     END
                 GO
+ 
+    -- PROCEDIMIENTO PARA AGREGAR NUEVO LIBRO
+        IF EXISTS (
+            SELECT *
+                FROM INFORMATION_SCHEMA.ROUTINES
+            WHERE SPECIFIC_SCHEMA = N'dbo'
+                AND SPECIFIC_NAME = N'AgregarLibro'
+                AND ROUTINE_TYPE = N'PROCEDURE'
+            )
+                DROP PROCEDURE dbo.AgregarLibro
+                    GO
+                CREATE PROCEDURE dbo.AgregarLibro
+                        @ISBN VARCHAR(100)
+                        , @ESTADO BIT
+                        , @TITULO VARCHAR(100)
+                        , @AUTOR VARCHAR(100)
+                        , @EDICION VARCHAR(100)
+                        , @NUMERO_DE_IMPRESION VARCHAR(100)
+                        , @EDITORIAL VARCHAR(100)
+                        , @ANIO INT
+                        , @DISPONIBLES INT
+                    AS
+                    BEGIN
+                        INSERT INTO Libros VALUES(@ISBN, @ESTADO, @TITULO, @AUTOR, @EDICION, @NUMERO_DE_IMPRESION, @EDITORIAL, @ANIO, @DISPONIBLES)
+                    END
+                GO
 
     -- PROCEDIMIENTO PARA CREAR TOKEN (TOKENIZACION)
         IF EXISTS (
@@ -189,7 +212,6 @@ GO
                 AS
                     BEGIN
                         DECLARE @RESULT INT
-                        EXECUTE Tokenizacion @CLAVE_DE_USUARIO
                         IF(SELECT [Administración].TOKEN
                             FROM [Administración]
                             LEFT JOIN Credenciales ON [Administración].[MATRICULA] = Credenciales.[MATRICULA]
@@ -203,11 +225,17 @@ GO
                                     )) IS NULL
                         BEGIN SET @RESULT = 0 END
                         ELSE
+                        BEGIN
+                            EXECUTE Tokenizacion @CLAVE_DE_USUARIO
+                            IF(SELECT [TIPO DE HORARIO] FROM [Credenciales] WHERE [MATRICULA] = @CLAVE_DE_USUARIO)= 'Admin'
+                            BEGIN SET @RESULT = 1 END
+                            ELSE
                             BEGIN
-                                IF(SELECT [TIPO DE HORARIO] FROM [Credenciales] WHERE [MATRICULA] = @CLAVE_DE_USUARIO)= 'Admin'
-                                BEGIN SET @RESULT = 1 END
-                                ELSE BEGIN SET @RESULT = 2 END
+                                IF(SELECT [TIPO DE HORARIO] FROM [Credenciales] WHERE [MATRICULA] = @CLAVE_DE_USUARIO)= 'Docente'
+                                BEGIN SET @RESULT = 2 END
+                                ELSE BEGIN SET @RESULT = 3 END
                             END
+                        END
                         RETURN @RESULT
                     END
                 GO
