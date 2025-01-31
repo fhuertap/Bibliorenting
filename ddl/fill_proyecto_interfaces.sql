@@ -7,11 +7,11 @@ USE PROYECTO_INTERFACES
         ('Docente', '00:00:00.000', '23:59:59.000', 'TEST'),
         ('Alumno', '00:00:00.000', '23:59:59.000', 'TEST')
 
-    -- ENTIDAD DE USUARIOS
+    -- AGREGAR USUARIOS
         EXECUTE AgregarUsuario '11223344-55', 1, 'Admin', 'Alumno', 'HH', 'HH', '1122334455', '112233@abc.com', 'AAAAAA', 'Cuarto', 'Sistemas Computacionales', 0, 'System32'
         EXECUTE AgregarUsuario '11223344-56', 1, 'Docente', 'Docente', 'HH', 'HH', '1122334456', '112234@abc.com', 'AAAAAA', 'Cuarto', 'Sistemas Computacionales', 0, 'System32'
             
-    -- ENTIDAD DE LIBROS
+    -- AGREGAR LIBROS
         EXECUTE AgregarLibro '1453-1454-12566', 1,'Chistes de Gallegos', 'Gallegín', 'Quinta', 'Tercera', 'Españolas Ediciones', 2003, 2
 
     -- ENTIDAD DE PRÉSTAMOS Y REGISTROS
