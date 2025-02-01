@@ -20,10 +20,7 @@
         </div>
         <button type="submit" class="login-btn">Ingresar</button>
     </form>
-    <div class="extra-links">
-        <a href="/forgot-password">Haz olvidado tu contraseña?</a><br>
-        <a href="/register">Registrar</a>
-    </div>
+   
 </div>
 
 </body>
