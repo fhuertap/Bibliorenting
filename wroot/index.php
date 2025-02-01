@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión</title>
+    <title>Iniciar Sesión, mexicana</title>
     <link rel="stylesheet" href="_pages/_sources/_styles/login_styles.css">
 </head>
 <body>
