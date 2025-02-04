@@ -357,6 +357,30 @@ GO
                 END
                 GO
 
+    -- FUNCIÓN PARA CONSULTA DE LIBROS
+        IF OBJECT_ID (N'dbo.Consultar_Libros', N'IF') IS NOT NULL
+            DROP FUNCTION dbo.Consultar_Libros
+            GO
+                CREATE FUNCTION dbo.Consultar_Libros()
+                    RETURNS TABLE
+                AS
+                    RETURN
+                    (
+                        SELECT ISBN
+                            , [TÍTULO]
+                            , AUTOR
+                            , [EDICIÓN]
+                            , [NÚMERO DE IMPRESIÓN]
+                            , EDITORIAL
+                            , [AÑO]
+                            , DISPONIBLES
+                            FROM Libros
+                                WHERE [Status] = 1
+                    )
+                GO
+
+
+
 
 
 ----------------------
