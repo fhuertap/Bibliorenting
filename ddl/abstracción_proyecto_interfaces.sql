@@ -266,6 +266,36 @@ GO
                     END
                 GO
 
+    -- PROCEDIMIENTO PARA CALCULAR LA FECHA DE ENTREGA DEL PRESTAMO DEL LIBRO
+        IF EXISTS (
+            SELECT *
+                FROM INFORMATION_SCHEMA.ROUTINES
+                    WHERE SPECIFIC_SCHEMA = N'dbo'
+                    AND SPECIFIC_NAME = N'[Calcular Fecha de entrega]'
+                    AND ROUTINE_TYPE = N'PROCEDURE'
+            )
+            DROP PROCEDURE dbo.[Calcular Fecha de entrega]
+            GO
+                CREATE PROCEDURE dbo.[Calcular Fecha de entrega]
+                        @regiduuid VARCHAR(60)
+                        , @fecha DATE
+                    AS
+                BEGIN
+                    BEGIN TRANSACTION __calculo_fecha_entrega_libro
+                        DECLARE @fecha_calculada DATE
+                        SET @fecha_calculada = CONVERT(DATE,DATEADD(DAY, 3, CONVERT(DATE, @fecha)))
+                        IF(DATENAME(WEEKDAY, @fecha_calculada) = 'Saturday' OR DATENAME(WEEKDAY, @fecha_calculada) = 'Sábado' OR DATENAME(WEEKDAY, @fecha_calculada) = 'Sabado')
+                        BEGIN
+                            UPDATE Registros SET [FECHA PROMESA DE ENTREGA] = CONVERT(DATE, DATEADD(DAY, 5, @fecha)) WHERE REGIDUUID = @regiduuid
+                        END
+                        IF(DATENAME(WEEKDAY,@fecha_calculada) = 'Sunday' OR DATENAME(WEEKDAY, @fecha_calculada) = 'Domingo')
+                        BEGIN
+                            UPDATE Registros SET [FECHA PROMESA DE ENTREGA] = CONVERT(DATE, DATEADD(DAY, 4, @fecha)) WHERE REGIDUUID = @regiduuid
+                        END
+                    COMMIT
+                END
+                GO
+
     -- PROCEDIMIENTO PARA AGREGAR NUEVO PRÉSTAMO DE LIBRO
         IF EXISTS (
             SELECT *
@@ -286,16 +316,21 @@ GO
                     DECLARE @libros_usuario INT = (SELECT [LIBROS EN PODER] FROM Usuarios WHERE [MATRÍCULA] = @matricula)
                     DECLARE @fecha DATETIME = GETDATE()
                     DECLARE @RESULT INT = 0
+                    DECLARE @regiduud VARCHAR(60)
                     BEGIN TRANSACTION __nuevo_prestamo
                         INSERT INTO [Préstamos]([MATRÍCULA], ISBN, [FECHA DE EMISIÓN]) VALUES
                         (@matricula, @isbn, @fecha)
+                        SET @regiduud = (SELECT REGIDUUID FROM [Préstamos] WHERE [MATRÍCULA] = @matricula AND [ISBN] = @isbn AND [FECHA DE EMISIÓN] = @fecha)
                         INSERT INTO Registros(REGIDUUID) VALUES
-                        ((SELECT REGIDUUID FROM [Préstamos] WHERE [MATRÍCULA] = @matricula AND [ISBN] = @isbn AND [FECHA DE EMISIÓN] = @fecha))
+                        (@regiduud)
                         UPDATE Libros SET DISPONIBLES = (DISPONIBLES - @cantidad) WHERE ISBN = @isbn
                         UPDATE Usuarios SET [LIBROS EN PODER] = ([LIBROS EN PODER] + @cantidad) WHERE MATRÍCULA = @matricula
+                        EXECUTE [Calcular Fecha de entrega] @regiduud, @fecha
                     IF (@libros_disponibles >= @cantidad)
                         IF (@libros_usuario <= 2)
-                            BEGIN SET @RESULT = 1 COMMIT END
+                            BEGIN SET @RESULT = 1
+                            COMMIT
+                            END
                         ELSE BEGIN SET @RESULT = 3 ROLLBACK END
                     ELSE BEGIN SET @RESULT = 2 ROLLBACK END
                     RETURN @RESULT
@@ -321,7 +356,6 @@ GO
                     COMMIT
                 END
                 GO
-
 
 
 
