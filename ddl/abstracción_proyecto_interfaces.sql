@@ -379,8 +379,86 @@ GO
                     )
                 GO
 
+    -- FUNCIÓN PARA CONSULTA DE USUARIOS DOCENTES
+        IF OBJECT_ID (N'dbo.Consultar_Docentes', N'IF') IS NOT NULL
+            DROP FUNCTION dbo.Consultar_Docentes
+            GO
+                CREATE FUNCTION dbo.Consultar_Docentes()
+                    RETURNS TABLE
+                AS
+                    RETURN
+                    (
+                        SELECT [MATRÍCULA]
+                            , NOMBRE
+                            , [APELLIDO PATERNO]
+                            , [APELLIDO MATERNO]
+                            , [NÚMERO DE CELULAR]
+                            , MAIL
+                            , CAMPUS
+                            , EDIFICIO
+                            , CARRERA
+                            , [LIBROS EN PODER]
+                            FROM Usuarios
+                                WHERE [TIPO DE USUARIO] = 'Docente'
+                                AND [STATUS] = 1
+                    )
+                GO
 
+    -- FUNCIÓN PARA CONSULTA DE USUARIOS ALUMNOS
+        IF OBJECT_ID (N'dbo.Consultar_Alumnos', N'IF') IS NOT NULL
+            DROP FUNCTION dbo.Consultar_Alumnos
+            GO
+                CREATE FUNCTION dbo.Consultar_Alumnos()
+                    RETURNS TABLE
+                AS
+                    RETURN
+                    (
+                        SELECT [MATRÍCULA]
+                            , NOMBRE
+                            , [APELLIDO PATERNO]
+                            , [APELLIDO MATERNO]
+                            , [NÚMERO DE CELULAR]
+                            , MAIL
+                            , CAMPUS
+                            , EDIFICIO
+                            , CARRERA
+                            , [LIBROS EN PODER]
+                            FROM Usuarios
+                                WHERE [TIPO DE USUARIO] = 'Alumno'
+                                AND [STATUS] = 1
+                    )
+                GO
 
+    -- FUNCIÓN PARA CONSULTA DE PRÉSTAMOS
+        IF OBJECT_ID (N'dbo.Consultar_Prestamos', N'IF') IS NOT NULL
+            DROP FUNCTION dbo.Consultar_Prestamos
+            GO
+                CREATE FUNCTION dbo.Consultar_Prestamos()
+                    RETURNS TABLE
+                AS
+                    RETURN
+                    (
+                        SELECT [Préstamos].REGIDUUID
+                            , [Préstamos].MATRÍCULA
+                            , Usuarios.[TIPO DE USUARIO]
+                            , Usuarios.NOMBRE
+                            , Usuarios.[NÚMERO DE CELULAR]
+                            , Usuarios.MAIL
+                            , [Préstamos].ISBN
+                            , Libros.TÍTULO
+                            , Libros.AUTOR
+                            , [Préstamos].[STATUS]
+                            , [Préstamos].[FECHA DE EMISIÓN]
+                            , [Registros].[FECHA PROMESA DE ENTREGA]
+                            , [Registros].[FECHA DE ENTREGA]
+                            , [Registros].[EFECTIVO GENERADO]
+                            , [Registros].[STATUS] [TIEMPO DE ENTREGA]
+                            FROM [Préstamos]
+                            LEFT JOIN Registros ON [Préstamos].REGIDUUID = Registros.REGIDUUID
+                            LEFT JOIN Usuarios ON [Préstamos].[MATRÍCULA] = Usuarios.[MATRÍCULA]
+                            LEFT JOIN Libros ON [Préstamos].ISBN = Libros.ISBN
+                    )
+                GO
 
 
 ----------------------

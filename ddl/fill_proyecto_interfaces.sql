@@ -26,12 +26,19 @@ USE PROYECTO_INTERFACES
     -- AGREGAR USUARIOS
         EXECUTE AgregarUsuario '11223344-55', 1, 'Admin', 'Alumno', 'HH', 'HH', '1122334455', '112233@abc.com', 'AAAAAA', 'Cuarto', 'Sistemas Computacionales', 0, 'System32'
         EXECUTE AgregarUsuario '11223344-56', 1, 'Docente', 'Docente', 'HH', 'HH', '1122334456', '112234@abc.com', 'AAAAAA', 'Cuarto', 'Sistemas Computacionales', 0, 'System32'
+        EXECUTE AgregarUsuario '11223344-57', 1, 'Alumno', 'Alumno', 'HH', 'HH', '1122334456', '112234@abc.com', 'AAAAAA', 'Cuarto', 'Sistemas Computacionales', 0, 'System32'
             
     -- AGREGAR LIBROS
         EXECUTE AgregarLibro '1453-1454-12566', 1,'Chistes de Gallegos', 'Gallegín', 'Quinta', 'Tercera', 'Españolas Ediciones', 2003, 2
 
     -- CONSULTA DE LIBROS
         SELECT * FROM Consultar_Libros()
+
+    -- CONSULTA DE DOCENTES
+        SELECT * FROM Consultar_Docentes()
+
+    -- CONSULTA DE ALUMNOS
+        SELECT * FROM Consultar_Alumnos()
 
     -- ENTIDAD DE PRÉSTAMOS Y REGISTROS
         DECLARE @RC INT
