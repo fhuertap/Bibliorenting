@@ -50,7 +50,6 @@ USE PROYECTO_INTERFACES
         PRINT @RU
 
  
-
     SELECT * FROM PRESTAMOS
         /* LOS STATUS DE LOS LIBROS PUEDEN SER:
             Activo: Cuando el préstamo aún es vigente y el usuario cuenta con él
