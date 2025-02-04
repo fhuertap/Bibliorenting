@@ -19,6 +19,12 @@ USE PROYECTO_INTERFACES
         EXECUTE @RC = [Nuevo Préstamo] '11223344-55', '1453-1454-12566', 1
         PRINT @RC
 
+        /* Valores que retorna el procedimiento:
+            1 : Préstamo completo y sin problemas
+            2 : Préstamo incompleto porque no hay existencia suficiente del libro solicitado
+            3 : Préstamo incompleto porque el usuario ya tiene 3 libros
+        */
+
         DECLARE @RU INT
         EXECUTE @RU = [Calcular Costo de préstamo]
         PRINT @RU
