@@ -6,12 +6,13 @@
 /*}*/
 
 body {
+    --bg-image-url: url("_imgs/intro-bg.jpg");
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: rgb(0, 0, 0) url("_imgs/intro-bg.jpg") center/cover no-repeat;
+    background: rgb(0, 0, 0) var(--bg-image-url) center/cover no-repeat;
 }
 
 .login-container {
