@@ -42,7 +42,7 @@ USE PROYECTO_INTERFACES;
     WHERE TIPO_DE_USUARIO = 'Alumno' AND STATUS = 1;
     
 -- ENTIDAD DE PRÉSTAMOS Y REGISTROS
-CALL Nuevo_Prestamo('11223344-55', '1453-1454-12566', 1);
+	CALL Nuevo_Prestamo('11223344-55', '1453-1454-12566', 1);
 
 -- Valores que retorna el procedimiento:
 -- 1 : Préstamo completo y sin problemas

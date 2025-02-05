@@ -217,13 +217,13 @@ BEGIN
     DECLARE fecha DATETIME;
     DECLARE RESULT INT DEFAULT 0;
     DECLARE regiduud VARCHAR(60);
-    SET libros_disponibles = (SELECT DISPONIBLES FROM Libros WHERE ISBN = isbn AND `STATUS` = 1);
-    SET libros_usuario = (SELECT LIBROS_EN_PODER FROM Usuarios WHERE MATRICULA = matricula);
+    SET libros_disponibles = (SELECT DISPONIBLES FROM Libros WHERE ISBN = isbn AND `STATUS` = 1 LIMIT 1);
+    SET libros_usuario = (SELECT LIBROS_EN_PODER FROM Usuarios WHERE MATRICULA = matricula LIMIT 1);
     SET fecha = current_date();
     
     START TRANSACTION;
     INSERT INTO Prestamos (MATRICULA, ISBN, FECHA_DE_EMISION, INSERTING) VALUES (matricula, isbn, fecha, 1);
-    SET regiduud = (SELECT REGIDUUID FROM Prestamos WHERE MATRICULA = matricula AND ISBN = isbn AND INSERTING = 1);
+    SET regiduud = (SELECT REGIDUUID FROM Prestamos WHERE MATRICULA = matricula AND ISBN = isbn AND INSERTING = 1 LIMIT 1);
     INSERT INTO Registros (REGIDUUID) VALUES (regiduud);
     UPDATE Prestamos SET INSERTING = 0;
     UPDATE Libros SET DISPONIBLES = DISPONIBLES - cantidad WHERE ISBN = isbn;
