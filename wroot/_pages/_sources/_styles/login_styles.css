@@ -7,11 +7,17 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: rgb(175, 175, 175);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+}
+
+.body-content {
+    /*
+    background: rgb(175, 175, 175);
+    */
+    background-image: url("wroot/_pages/assets/img/intro-bg.jpg");
 }
 
 .login-container {

@@ -7,9 +7,9 @@
     <title>Bibliorenting</title>
     <link rel="stylesheet" href="_sources/_styles/login_styles.css">
 </head>
-<body>
+<body background="assets/img/intro-bg.jpg">
 <div class="login-container">
-    <h2>Usuario</h2>
+    <h2>Iniciar sesión en Bibliorenting</h2>
     <form action="/wroot/_pages/layout_page.php" method="POST">
         <div class="form-group">
             <label for="username">Nombre de Usuario</label>
