@@ -64,7 +64,3 @@ CALL Calcular_Costo_de_prestamo();
 -- Inactivo: Cuando el préstamo ya no es vigente y el libro se ha entregado a la librería
 -- Retraso: Cuando el préstamo aún es vigente, el usuario cuenta con él y no ha sido entregado en el plazo estipulado
 
-
-
-
-

@@ -65,6 +65,7 @@ CREATE TABLE Prestamos(
     MATRICULA VARCHAR(30),
     ISBN VARCHAR(100),
     FECHA_DE_EMISION DATETIME,
+    INSERTING BIT,
     STATUS VARCHAR(60) NOT NULL DEFAULT 'Activo',
     FOREIGN KEY (MATRICULA) REFERENCES Usuarios(MATRICULA),
     FOREIGN KEY (ISBN) REFERENCES Libros(ISBN)
@@ -216,13 +217,15 @@ BEGIN
     DECLARE fecha DATETIME;
     DECLARE RESULT INT DEFAULT 0;
     DECLARE regiduud VARCHAR(60);
-    SET libros_disponibles = (SELECT DISPONIBLES FROM Libros WHERE ISBN = isbn);
+    SET libros_disponibles = (SELECT DISPONIBLES FROM Libros WHERE ISBN = isbn AND `STATUS` = 1);
     SET libros_usuario = (SELECT LIBROS_EN_PODER FROM Usuarios WHERE MATRICULA = matricula);
-    SET fecha = NOW();
+    SET fecha = current_date();
+    
     START TRANSACTION;
-    INSERT INTO Prestamos (MATRICULA, ISBN, FECHA_DE_EMISION) VALUES (matricula, isbn, fecha);
-    SET regiduud = (SELECT REGIDUUID FROM Prestamos WHERE MATRICULA = matricula AND ISBN = isbn AND FECHA_DE_EMISION = fecha);
+    INSERT INTO Prestamos (MATRICULA, ISBN, FECHA_DE_EMISION, INSERTING) VALUES (matricula, isbn, fecha, 1);
+    SET regiduud = (SELECT REGIDUUID FROM Prestamos WHERE MATRICULA = matricula AND ISBN = isbn AND INSERTING = 1);
     INSERT INTO Registros (REGIDUUID) VALUES (regiduud);
+    UPDATE Prestamos SET INSERTING = 0;
     UPDATE Libros SET DISPONIBLES = DISPONIBLES - cantidad WHERE ISBN = isbn;
     UPDATE Usuarios SET LIBROS_EN_PODER = LIBROS_EN_PODER + cantidad WHERE MATRICULA = matricula;
     CALL Calcular_Fecha_de_entrega(regiduud, fecha);
