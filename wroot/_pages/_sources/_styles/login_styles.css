@@ -1,9 +1,9 @@
  /* Basic Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/** {*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*    box-sizing: border-box;*/
+/*}*/
 
 body {
     font-family: Arial, sans-serif;
@@ -11,13 +11,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-}
-
-.body-content {
-    /*
-    background: rgb(175, 175, 175);
-    */
-    background-image: url("wroot/_pages/assets/img/intro-bg.jpg");
+    background: rgb(0, 0, 0) url("_imgs/intro-bg.jpg") center/cover no-repeat;
 }
 
 .login-container {

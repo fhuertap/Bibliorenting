@@ -7,10 +7,10 @@
     <title>Bibliorenting</title>
     <link rel="stylesheet" href="_sources/_styles/login_styles.css">
 </head>
-<body background="assets/img/intro-bg.jpg">
-<div class="login-container">
+<body>
+    <div class="login-container">
     <h2>Iniciar sesión en Bibliorenting</h2>
-    <form action="/wroot/_pages/layout_page.php" method="POST">
+    <form action="layout_page.php">
         <div class="form-group">
             <label for="username">Nombre de Usuario</label>
             <input type="text" id="username" name="username" required>
@@ -21,7 +21,7 @@
         </div>
         <button type="submit" class="login-btn">Ingresar</button>
     </form>
-</div>
+    </div>
 </body>
 </html>
 

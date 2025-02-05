@@ -1,14 +1,10 @@
 <?php
 
+$username = $_GET['username'] ?? "ENTRADA INVÁLIDA";
+$password = $_GET['password'] ?? "ENTRADA INVÁLIDA";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $usuario = isset($_POST['username']) ? $_POST['username'] : "ENTRADA INVÁLIDA";
-    $contrasena = isset($_POST['password']) ? $_POST['password'] : "ENTRADA INVÁLIDA";
-}
 
-echo("Usuario: " . $usuario . "<br>" . "Password: " . $contrasena . "<br>");
-
+echo("Usuario: " . $username . "<br>" . "Password: " . $password . "<br>");
 
 
 echo "layout page";
-?>
