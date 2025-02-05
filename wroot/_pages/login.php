@@ -5,7 +5,7 @@
     <meta charset="UTF-8" lang="Es-es">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bibliorenting</title>
-    <link rel="stylesheet" href="_sources/_styles/login_styles.css">
+    <link rel="stylesheet" href="_sources/_styles/login.css">
 </head>
 <body>
     <div class="login-container">
