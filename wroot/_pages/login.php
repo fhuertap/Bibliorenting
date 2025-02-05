@@ -1,3 +1,13 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" lang="Es-es">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bibliorenting</title>
+    <link rel="stylesheet" href="_sources/_styles/login_styles.css">
+</head>
+<body>
 <div class="login-container">
     <h2>Usuario</h2>
     <form action="/wroot/_pages/layout_page.php" method="POST">
@@ -12,3 +22,6 @@
         <button type="submit" class="login-btn">Ingresar</button>
     </form>
 </div>
+</body>
+</html>
+
