@@ -14,7 +14,7 @@
             <h1>
                 <?php
                     $username = $_GET['username'];
-                        echo("Bienvenido: " . $username . " -- ");
+                        echo("Bienvenido: " . $username . " - ");
                 ?>Dashboard - Bibliorenting
                 <button id="logoutBtn">Cerrar sesión</button>
             </h1>
