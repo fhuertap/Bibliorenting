@@ -13,14 +13,6 @@ header {
     padding: 10px 20px;
     text-align: center;
 }
-/*.button-container {*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*    padding: 20px;*/
-/*    background: url("_imgs/downloads-bg.jpg") no-repeat center;*/
-/*    background-size: cover;*/
-/*}*/
 .button-container {
     display: flex;
     justify-content: space-around;
