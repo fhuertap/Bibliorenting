@@ -13,11 +13,22 @@ header {
     padding: 10px 20px;
     text-align: center;
 }
+/*.button-container {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    padding: 20px;*/
+/*    background: url("_imgs/downloads-bg.jpg") no-repeat center;*/
+/*    background-size: cover;*/
+/*}*/
 .button-container {
     display: flex;
     justify-content: space-around;
     padding: 20px;
-    background-color: #f4f4f4;
+    /*background-color: #858585;*/
+    background: url("_imgs/downloads-bg.jpg") no-repeat center;
+    background-size: cover;
+        /*background-image: linear-gradient(315deg, #858585 0%, rgba(0, 0, 0, 0.44) 74%);*/
 }
 .button-container button {
     padding: 10px 20px;
@@ -25,12 +36,14 @@ header {
     cursor: pointer;
     border: none;
     border-radius: 5px;
-    background-color: #333;
+    background-color: #000000;
     color: white;
     transition: background-color 0.3s ease;
 }
 .button-container button:hover {
-    background-color: #555;
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #000000;
 }
 .grid-container {
     alignment-baseline: center;
