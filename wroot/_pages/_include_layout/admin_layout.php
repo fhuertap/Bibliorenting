@@ -4,5 +4,4 @@
     <button onclick="location.href='page3.php'">Gestión de Docentes</button>
     <button onclick="location.href='page4.php'">Nuevo préstamo de libro</button>
     <button onclick="location.href='page5.php'">Devolución de libro</button>
-    <button onclick="location.href='page2.php'" class="logout-button">Cerrar sesión</button>
 </div>

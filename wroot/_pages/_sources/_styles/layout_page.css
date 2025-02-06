@@ -30,6 +30,7 @@ header {
     color: white;
     transition: background-color 0.2s ease-out;
 }
+
 .button-container button:hover {
     background-color: #ffffff;
     color: #000000;
@@ -52,7 +53,22 @@ header {
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.logout-button {
-    background-color: red;
+
+.button-container-cs {
+    justify-content: space-around;
+    padding: 30px;
+}
+.button-container-cs button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 20px;
+    background-color: #b10303;
     color: white;
+    transition: background-color 0.2s ease-out;
+}
+.button-container-cs button:hover {
+    background-color: #7a1f1f;
+    color: #ffffff;
+    border: 2px solid #ffffff;
 }

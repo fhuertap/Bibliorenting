@@ -6,16 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Bibliorenting</title>
     <link rel="stylesheet" href="_sources/_styles/layout_page.css">
-
+    <script src="_sources/_scripts/layout_page.js" defer></script>
 </head>
 <body>
     <header>
-        <h1><?php
-
-            $username = $_GET['username'];
+        <div class="button-container-cs">
+            <h1>
+                <?php
+                    $username = $_GET['username'];
                         echo("Bienvenido: " . $username . " -- ");
-            ?>Dashboard - Bibliorenting
-        </h1>
+                ?>Dashboard - Bibliorenting
+                <button id="logoutBtn">Cerrar sesión</button>
+            </h1>
+        </div>
+
     </header>
         <?php
             if ($username == 'admin') {
