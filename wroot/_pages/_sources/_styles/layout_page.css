@@ -16,21 +16,19 @@ header {
 .button-container {
     display: flex;
     justify-content: space-around;
-    padding: 20px;
-    /*background-color: #858585;*/
+    padding: 40px;
     background: url("_imgs/downloads-bg.jpg") no-repeat center;
     background-size: cover;
-        /*background-image: linear-gradient(315deg, #858585 0%, rgba(0, 0, 0, 0.44) 74%);*/
 }
 .button-container button {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
     border: none;
-    border-radius: 5px;
+    border-radius: 20px;
     background-color: #000000;
     color: white;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.2s ease-out;
 }
 .button-container button:hover {
     background-color: #ffffff;
@@ -53,4 +51,8 @@ header {
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.logout-button {
+    background-color: red;
+    color: white;
 }

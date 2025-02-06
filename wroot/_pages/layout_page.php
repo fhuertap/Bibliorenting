@@ -14,15 +14,16 @@
 
             $username = $_GET['username'];
                         echo("Bienvenido: " . $username . " -- ");
-            ?>Dashboard - Bibliorenting</h1>
+            ?>Dashboard - Bibliorenting
+        </h1>
     </header>
-    <div class="button-container">
-        <button onclick="location.href='page1.php'">Gestionar Libros</button>
-        <button onclick="location.href='page2.php'">Gestión de Alumnos</button>
-        <button onclick="location.href='page3.php'">Gestión de Docentes</button>
-        <button onclick="location.href='page4.php'">Nuevo préstamo de libro</button>
-        <button onclick="location.href='page5.php'">Devolución de libro</button>
-    </div>
+        <?php
+            if ($username == 'admin') {
+                include '_include_layout/admin_layout.php';
+            } else{
+                include '_include_layout/usuario_layout.php';
+            }
+            ?>
     <div class="grid-container">
         <div class="grid-item">Data 1</div>
         <div class="grid-item">Data 2</div>
