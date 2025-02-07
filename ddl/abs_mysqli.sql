@@ -4,7 +4,7 @@
 --    CHARACTER SET latin1
 --    COLLATE latin1_swedish_ci;
 -- USE PROYECTO_INTERFACES;
-USE indust94_sistemas_progweb;
+-- USE indust94_PROYECTO_INTERFACES;
 -- ENTIDAD DE LIBROS
 DROP TABLE IF EXISTS Libros;
 CREATE TABLE Libros(

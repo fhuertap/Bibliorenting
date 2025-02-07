@@ -5,7 +5,7 @@ header("Content-Type: application/json");
 $host = "65.99.225.119";
 $user = "indust94_sistemas_progweb";
 $password = "+]Ec.=D11L(o";
-$database = "PROYECTOS_INTERFACES";
+$database = "indust94_PROYECTOS_INTERFACES";
 $mysqli = new mysqli($host, $user, $password, $database);
 
 if ($mysqli->connect_error) {
@@ -24,6 +24,10 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     foreach ($result->fetch_array(MYSQLI_NUM) as $f)
         {
+            if ($f == 0)
+            {
+                echo json_encode(["success" => false, "message" => "Fuera de horario de atención."]);
+            }
             if ($f == 1)
             {
                 echo json_encode(["success" => true, "message" => "admin"]);
@@ -34,9 +38,7 @@ if ($result->num_rows > 0) {
             }
         }
 } else {
-    echo json_encode(["success" => false, "message" => "Invalid password."]);
+    echo json_encode(["success" => false]);
 }
 $stmt->close();
-if ($mysqli) {
-    $mysqli->close();
-}
+$mysqli?->close();
