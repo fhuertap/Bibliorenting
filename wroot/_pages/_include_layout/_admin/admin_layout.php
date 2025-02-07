@@ -18,11 +18,14 @@ $stmt = $mysqli->prepare(query: $query);
 $stmt->execute();
 $result = $stmt->get_result();
 
+$data = [];
+while ($row = $result->fetch_assoc()) {
+    $data[] = $row;
+}
 
 $stmt->close();
 $mysqli?->close();
 ?>
-
 <div class="button-container">
     <button onclick="location.href='page1.php'">Gestionar Libros</button>
     <button onclick="location.href='page2.php'">Gestión de Alumnos</button>
@@ -31,9 +34,30 @@ $mysqli?->close();
     <button onclick="location.href='page5.php'">Devolución de libro</button>
 </div>
 <div class="grid-container">
-    <div class="grid-item">Data 1</div>
-    <div class="grid-item">Data 2</div>
-    <div class="grid-item">Data 3</div>
-    <div class="grid-item">Data 4</div>
-    <div class="grid-item">Data 5</div>
+    <?php foreach ($data as $row): ?>
+        <div class="grid-item-container">
+            <div class="grid-item">Matrícula: <?php echo htmlspecialchars($row['MATRICULA']); ?></div>
+            <div class="grid-item"><?php echo htmlspecialchars($row['TIPO_DE_USUARIO']); ?>
+                : <?php echo htmlspecialchars($row['NOMBRE']); ?></div>
+            <div class="grid-item">Cel.: <?php echo htmlspecialchars($row['NUMERO_DE_CELULAR']); ?> -
+                Mail: <?php echo htmlspecialchars($row['MAIL']); ?></div>
+            <div class="grid-item">ISBN: <?php echo htmlspecialchars($row['ISBN']); ?> -
+                Título: <?php echo htmlspecialchars($row['TITULO']); ?> -
+                Autor: <?php echo htmlspecialchars($row['AUTOR']); ?></div>
+            <div class="grid-item">Estatus: <?php echo htmlspecialchars($row['STATUS']); ?> - Fecha de
+                préstamo: <?php echo htmlspecialchars($row['FECHA_DE_EMISION']); ?></div>
+            <div class="grid-item">Fecha a devolver: <?php echo htmlspecialchars($row['FECHA_PROMESA_DE_ENTREGA']); ?> -
+                Estatus: <?php echo htmlspecialchars($row['TIEMPO_DE_ENTREGA']); ?></div>
+        </div>
+    <?php endforeach; ?>
+    <?php
+    if (count($data) == 0) {
+        echo "
+        <div class='grid-item-container-n'>
+            <div class='grid-item-n'>
+                    No hay libros prestados
+            </div>
+        </div>";
+    }
+    ?>
 </div>

@@ -5,10 +5,10 @@
 	CALL AgregarHorarios('Alumno', '00:00:00', '23:59:59', 'TEST');
 
 -- AGREGAR USUARIOS
-	CALL AgregarUsuario('11223344-56', 1, 'Docente', 'Docente', 'HH', 'HH', '1122334456', '112234@abc.com', 'AAAAAA', 'Cuarto', 'Sistemas Computacionales', 0, 'System32');
-	CALL AgregarUsuario('11223344-57', 1, 'Alumno', 'Alumno', 'HH', 'HH', '1122334456', '112234@abc.com', 'AAAAAA', 'Cuarto', 'Sistemas Computacionales', 0, 'System32');
-	CALL AgregarUsuario('admin', 1, 'Admin', 'NOMBRE DE ADMIN', 'HH', 'HH', '1122334456', '112234@abc.com', 'AAAAAA', 'Cuarto', 'Sistemas Computacionales', 0, 'admin');
-	CALL AgregarUsuario('user', 1, 'Docente', 'NOMBRE DE USER', 'HH', 'HH', '1122334456', '112234@abc.com', 'AAAAAA', 'Cuarto', 'Sistemas Computacionales', 0, 'user');
+	CALL AgregarUsuario('11223344-56', 1, 'Docente', 'Alonso', 'Hernández', 'Cantú', '1122334455', '112234@abc.com', 'AAAAAA', 'Cuarto', 'Sistemas Computacionales', 0, 'System32');
+	CALL AgregarUsuario('11223344-57', 1, 'Alumno', 'Gerónimo', 'Guzmán', 'Godoy', '1122334456', '112234@abc.com', 'AAAAAA', 'Cuarto', 'Sistemas Computacionales', 0, 'System32');
+	CALL AgregarUsuario('admin', 1, 'Admin', 'Fernando', 'Jímenez', 'Arreguín', '1122334456', '112234@abc.com', 'AAAAAA', 'Cuarto', 'Sistemas Computacionales', 0, 'admin');
+	CALL AgregarUsuario('user', 1, 'Docente', 'Carlos', 'Cirón', 'Leyva', '1122334456', '112234@abc.com', 'AAAAAA', 'Cuarto', 'Sistemas Computacionales', 0, 'user');
 
 -- INICIAR SESIÓN
 	CALL Iniciar_Sesion('user', 'user');
@@ -42,7 +42,8 @@
     WHERE TIPO_DE_USUARIO = 'Alumno' AND STATUS = 1;
     
 -- ENTIDAD DE PRÉSTAMOS Y REGISTROS
-	CALL Nuevo_Prestamo('11223344-56', '1453-1454-12566', 1);
+	CALL Nuevo_Prestamo('11223344-57', '1453-1454-12566', 1);
+    CALL Nuevo_Prestamo('admin', '1453-1454-12566', 1);
 
 -- Valores que retorna el procedimiento:
 -- 1 : Préstamo completo y sin problemas

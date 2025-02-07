@@ -1,4 +1,3 @@
-
 document.getElementById('logoutBtn').addEventListener('click',
     function (e) {
         // Prevent default behavior

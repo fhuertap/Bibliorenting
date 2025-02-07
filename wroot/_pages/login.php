@@ -1,4 +1,3 @@
-
 <?php
 header("Content-Type: application/json");
 
@@ -22,21 +21,17 @@ $stmt->bind_param("ss", $username, $password);
 $stmt->execute();
 $result = $stmt->get_result();
 if ($result->num_rows > 0) {
-    foreach ($result->fetch_array(MYSQLI_NUM) as $f)
-        {
-            if ($f == 0)
-            {
-                echo json_encode(["success" => false, "message" => "Fuera de horario de atención."]);
-            }
-            if ($f == 1)
-            {
-                echo json_encode(["success" => true, "message" => "admin"]);
-            }
-            if ($f == 2 || $f == 3)
-            {
-                echo json_encode(["success" => true, "message" => "user"]);
-            }
+    foreach ($result->fetch_array(MYSQLI_NUM) as $f) {
+        if ($f == 0) {
+            echo json_encode(["success" => false, "message" => "Fuera de horario de atención."]);
         }
+        if ($f == 1) {
+            echo json_encode(["success" => true, "message" => "admin"]);
+        }
+        if ($f == 2 || $f == 3) {
+            echo json_encode(["success" => true, "message" => "user"]);
+        }
+    }
 } else {
     echo json_encode(["success" => false]);
 }

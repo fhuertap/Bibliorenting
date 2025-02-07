@@ -7,7 +7,7 @@
 //     }
 // }
 
-document.getElementById("loginForm").addEventListener("submit", function(event) {
+document.getElementById("loginForm").addEventListener("submit", function (event) {
     event.preventDefault(); // Prevent default form submission
 
     let username = document.getElementById("username").value;
@@ -27,13 +27,13 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
         .then(response => response.json()) // Expecting JSON from PHP
         .then(data => {
             if (data.success) {
-                if(data.message === 'admin') {
-                    window.location.href = "main_dashboard.php?username="+username+"&usertype=admin"; // Redirect on success
+                if (data.message === 'admin') {
+                    window.location.href = "main_dashboard.php?username=" + username + "&usertype=admin"; // Redirect on success
                 }
-                if(data.message === 'user') {
-                    window.location.href = "main_dashboard.php?username="+username+"&usertype=user"; // Redirect on success
+                if (data.message === 'user') {
+                    window.location.href = "main_dashboard.php?username=" + username + "&usertype=user"; // Redirect on success
                 }
-            }else{
+            } else {
                 alert('Credentials are incorrect');
             }
         })
