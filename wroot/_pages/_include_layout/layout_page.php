@@ -8,6 +8,7 @@ $password = "+]Ec.=D11L(o";
 $database = "indust94_PROYECTOS_INTERFACES";
 $mysqli = new mysqli($host, $user, $password, $database);
 
+/** @noinspection SqlResolve */
 $stmt = $mysqli->prepare(query: "SELECT NOMBRE FROM Usuarios WHERE MATRICULA = ?");
 
 $stmt->bind_param("s", $username);
@@ -21,9 +22,7 @@ if ($result->num_rows > 0) {
     }
 }
 $stmt->close();
-if ($mysqli) {
-    $mysqli->close();
-}
+$mysqli?->close();
 ?>
     <header>
         <div class="button-container-cs">
