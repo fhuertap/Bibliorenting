@@ -2,7 +2,7 @@
 <project version="4">
   <component name="MessDetector">
     <phpmd_settings>
-      <phpmd_by_interpreter asDefaultInterpreter="true" interpreter_id="477ce06f-cfea-4e01-b1be-72e1afd703cb" timeout="30000" />
+      <phpmd_by_interpreter asDefaultInterpreter="true" interpreter_id="4f913135-d2de-4793-b5b1-63e96c263f18" timeout="30000" />
     </phpmd_settings>
   </component>
   <component name="MessDetectorOptionsConfiguration">
@@ -17,12 +17,22 @@
   </component>
   <component name="PhpCodeSniffer">
     <phpcs_settings>
-      <phpcs_by_interpreter asDefaultInterpreter="true" interpreter_id="477ce06f-cfea-4e01-b1be-72e1afd703cb" timeout="30000" />
+      <phpcs_by_interpreter asDefaultInterpreter="true" interpreter_id="4f913135-d2de-4793-b5b1-63e96c263f18" timeout="30000" />
     </phpcs_settings>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.4" />
+  <component name="PhpStan">
+    <PhpStan_settings>
+      <phpstan_by_interpreter asDefaultInterpreter="true" interpreter_id="bd86b11c-8130-46a5-8a4d-2cd4e6a4fd9e" timeout="60000" />
+    </PhpStan_settings>
+  </component>
   <component name="PhpStanOptionsConfiguration">
     <option name="transferred" value="true" />
+  </component>
+  <component name="Psalm">
+    <Psalm_settings>
+      <psalm_fixer_by_interpreter asDefaultInterpreter="true" interpreter_id="bd86b11c-8130-46a5-8a4d-2cd4e6a4fd9e" timeout="60000" />
+    </Psalm_settings>
   </component>
   <component name="PsalmOptionsConfiguration">
     <option name="transferred" value="true" />

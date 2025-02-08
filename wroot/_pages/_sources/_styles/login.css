@@ -1,4 +1,4 @@
- /* Basic Reset */
+/* Basic Reset */
 * {
     margin: 0;
     padding: 0;
@@ -6,16 +6,17 @@
 }
 
 body {
+    --bg-image-url: url("_imgs/intro-bg.jpg");
     font-family: Arial, sans-serif;
-    background-color: #f3f4f6;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    background: rgb(0, 0, 0) var(--bg-image-url) center/cover no-repeat;
 }
 
 .login-container {
-    background-color: #ffffff;
+    background-color: rgb(255, 255, 255);
     padding: 20px 30px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -49,15 +50,15 @@ body {
 }
 
 .form-group input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+    border-color: #000000;
+    box-shadow: 0 0 5px rgba(98, 99, 101, 0.3);
 }
 
 .login-btn {
     display: block;
     width: 100%;
     padding: 10px;
-    background-color: #007bff;
+    background-color: #000000;
     border: none;
     border-radius: 5px;
     color: white;
@@ -68,21 +69,27 @@ body {
 }
 
 .login-btn:hover {
-    background-color: #0056b3;
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #000000;
 }
 
+/*
 .extra-links {
     text-align: center;
     margin-top: 15px;
 }
+*/
 
-.extra-links a {
+/*.extra-links a {
     text-decoration: none;
     color: #007bff;
     font-size: 14px;
     transition: color 0.3s;
-}
+}*/
 
+/*
 .extra-links a:hover {
     color: #0056b3;
 }
+*/
