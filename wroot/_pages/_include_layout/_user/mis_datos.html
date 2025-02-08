@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Datos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        td input[type="text"],
+        td input[type="email"],
+        td input[type="number"],
+        td select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Mis Datos</h1>
+
+<div class="form-container">
+    <form action="submit_form.php" method="POST">
+        <table>
+            <tr>
+                <th>Campo</th>
+                <th>Valor</th>
+            </tr>
+            <tr>
+                <td><label for="nombre">Nombre:</label></td>
+                <td><input type="text" id="nombre" name="nombre" required></td>
+            </tr>
+            <tr>
+                <td><label for="apellido">Apellido:</label></td>
+                <td><input type="text" id="apellido" name="apellido" required></td>
+            </tr>
+            <tr>
+                <td><label for="email">Correo Electrónico:</label></td>
+                <td><input type="email" id="email" name="email" required></td>
+            </tr>
+            <tr>
+                <td><label for="telefono">Teléfono:</label></td>
+                <td><input type="number" id="telefono" name="telefono" required></td>
+            </tr>
+            <tr>
+                <td><label for="direccion">Dirección:</label></td>
+                <td><input type="text" id="direccion" name="direccion"></td>
+            </tr>
+            <tr>
+                <td><label for="ciudad">Ciudad:</label></td>
+                <td><input type="text" id="ciudad" name="ciudad"></td>
+            </tr>
+            <tr>
+                <td><label for="pais">País:</label></td>
+                <td>
+                    <select id="pais" name="pais">
+                        <option value="Argentina">Argentina</option>
+                        <option value="Chile">Chile</option>
+                        <option value="Colombia">Colombia</option>
+                        <option value="Mexico">México</option>
+                        <option value="España">España</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+
+        <div class="button-container">
+            <button type="submit">Enviar</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
