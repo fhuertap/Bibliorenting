@@ -10,8 +10,19 @@
 	CALL AgregarUsuario('admin', 1, 'Admin', 'Fernando', 'Jímenez', 'Arreguín', '1122334456', '112234@abc.com', 'AAAAAA', 'Cuarto', 'Sistemas Computacionales', 0, 'admin');
 	CALL AgregarUsuario('user', 1, 'Docente', 'Carlos', 'Cirón', 'Leyva', '1122334456', '112234@abc.com', 'AAAAAA', 'Cuarto', 'Sistemas Computacionales', 0, 'user');
 
+-- AGREGAR LIBROS
+    CALL AgregarLibro('1453-1454-12566', 1,'Chistes de Gallegos', 'Gallegín', 'Quinta', 'Tercera', 'Españolas Ediciones', 2003, 2);
+
+-- ENTIDAD DE PRÉSTAMOS Y REGISTROS
+    CALL Nuevo_Prestamo('11223344-57', '1453-1454-12566', 1);
+    CALL Nuevo_Prestamo('admin', '1453-1454-12566', 1);
+
 -- INICIAR SESIÓN
 	CALL Iniciar_Sesion('user', 'user');
+
+-- CÁLCULO DE COSTO DE ENTREGA
+    CALL Calcular_Costo_de_prestamo();
+
     
 -- 0 ES NO ACCEDER
 -- 1 ES ADMIN
@@ -22,9 +33,6 @@
 	CALL ValidarToken('11223344-55');
 -- 0 TOKEN VENCIDO
 -- 1 TOKEN VIGENTE
-
--- AGREGAR LIBROS
-	CALL AgregarLibro('1453-1454-12566', 1,'Chistes de Gallegos', 'Gallegín', 'Quinta', 'Tercera', 'Españolas Ediciones', 2003, 2);
 
 -- CONSULTA DE LIBROS
 	SELECT ISBN, TITULO, AUTOR, EDICION, NUMERO_DE_IMPRESION, EDITORIAL, ANIO, DISPONIBLES
@@ -40,10 +48,6 @@
 	SELECT MATRICULA, NOMBRE, APELLIDO_PATERNO, APELLIDO_MATERNO, NUMERO_DE_CELULAR, MAIL, CAMPUS, EDIFICIO, CARRERA, LIBROS_EN_PODER
     FROM Usuarios
     WHERE TIPO_DE_USUARIO = 'Alumno' AND STATUS = 1;
-    
--- ENTIDAD DE PRÉSTAMOS Y REGISTROS
-	CALL Nuevo_Prestamo('11223344-57', '1453-1454-12566', 1);
-    CALL Nuevo_Prestamo('admin', '1453-1454-12566', 1);
 
 -- Valores que retorna el procedimiento:
 -- 1 : Préstamo completo y sin problemas
@@ -57,8 +61,6 @@
     LEFT JOIN Usuarios ON Prestamos.MATRICULA = Usuarios.MATRICULA
     LEFT JOIN Libros ON Prestamos.ISBN = Libros.ISBN;
     
--- CÁLCULO DE COSTO DE ENTREGA
-CALL Calcular_Costo_de_prestamo();
 
 -- LOS STATUS DE LOS LIBROS PUEDEN SER:
 -- Activo: Cuando el préstamo aún es vigente y el usuario cuenta con él

@@ -10,7 +10,6 @@ $mysqli = new mysqli($host, $user, $password, $database);
 
 $query = 'SELECT NOMBRE FROM Usuarios WHERE MATRICULA = ?';
 $stmt = $mysqli->prepare(query: $query);
-
 $stmt->bind_param("s", $username);
 $stmt->execute();
 $result = $stmt->get_result();
