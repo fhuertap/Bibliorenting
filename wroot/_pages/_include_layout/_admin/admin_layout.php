@@ -24,14 +24,8 @@ while ($row = $result->fetch_assoc()) {
 
 $stmt->close();
 $mysqli?->close();
+include '../admin_header.php';
 ?>
-<div class="button-container">
-    <button onclick="location.href='gestionar_libros.php'">Gestionar Libros</button>
-    <button onclick="location.href='gestionar_alumnos.php'">Gestión de Alumnos</button>
-    <button onclick="location.href='gestionar_docentes.php'">Gestión de Docentes</button>
-    <button onclick="location.href='efectuar_nuevo_prestamo.php'">Nuevo préstamo de libro</button>
-    <button onclick="location.href='efectuar_devolucion.php'">Devolución de libro</button>
-</div>
 <div class="grid-container">
     <?php foreach ($data as $row): ?>
         <div class="grid-item-container">
